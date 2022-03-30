@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load filter1 %}
+{% block title %}登入頁{% endblock %}
+{% block content%}
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td><label for="recipient-name" class="col-form-label">{{ form.username.label }}</label></td>
+            <td>{{ form.username|addcss:'form-control' }}</td>
+        </tr>
+        <tr>
+            <td><label for="recipient-name" class="col-form-label">{{ form.password.label }}</label></td>
+            <td>{{ form.password|addcss:'form-control' }}</td>
+        </tr>
+    </table>
+    <input type="submit" value="login" class="btn btn-success">
+</form>
+{% endblock %}

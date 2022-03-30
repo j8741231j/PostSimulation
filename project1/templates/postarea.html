@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貼文</title>
+    <link rel="icon" href="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal">新增貼文</button>
+    {% for post in posts %}
+    <h2 class="mt-2">顯示 貼文</h2>
+    標題：{{ post.subject }} <br />
+    內文：{{ post.content }} <br />
+    {% if post.image_url|length > 0  %} <!-- 長度大於0 代表當時有上傳圖片 -->
+    圖片：<img src="{{ post.image_url }}" width="50" alt="貼文圖片"><br />
+    {% endif %}
+    貼文者：{{ post.author}} <br />
+    時間：{{post.create_date }} <br />
+    地址：{{ post.location }} <br />
+    {% endfor %}
+
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/postarea/addpost/" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">標題</label>
+                            <input type="text" class="form-control" name="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">內文</label>
+                            <input type="text" class="form-control" name="content">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">圖片</label>
+                            {{ form.image }}
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">貼文者</label>
+                            <input type="text" class="form-control" name="author" value="Frank">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">地址</label>
+                            <input type="text" class="form-control" name="location">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
